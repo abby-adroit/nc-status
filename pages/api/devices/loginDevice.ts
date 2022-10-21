@@ -17,9 +17,9 @@ export default async function loginUser(req: NextApiRequest, res: NextApiRespons
             maxAge: 86400, //Expiry
             path: '/'
         }))
-        res.json({id: 1});
+        res.json(1);
     }else{
         console.log("method should be POST")
-        res.status(405).json({id: 0});
+        res.status(405).json(0);
     }
 } 

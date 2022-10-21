@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
   env: {
-    api_server: "http://"+process.env.HOST+":"+process.env.API_PORT+"/api",
+    api_server: "http://"+process.env.HOST+":"+process.env.PORT+"/api",
     app_title: process.env.APP_TITLE
   }
 }

@@ -1,7 +1,7 @@
 export const config = {
     user: process.env.DB_USER,
-    password: process.env.DB_PW,
-    server: `${process.env.HOST}/${process.env.INSTANCE}`,
+    password: process.env.DB_PASSWORD,
+    server: `${process.env.HOST}\\${process.env.INSTANCE}`,
     database: process.env.DATABASE,
     pool: {
         max: 10,

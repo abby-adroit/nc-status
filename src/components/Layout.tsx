@@ -1,13 +1,12 @@
 import { Box, Grid, Typography } from "@material-ui/core"
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
+import axios from "axios";
 import React, { useContext, useEffect, useState } from "react"
 import useSWR from "swr";
+import MainContext from "../contexts/mainContext";
 import { groupList } from "../models/Groups"
 import { Locations } from "../models/Locations";
-import MainContext from "../contexts/mainContext";
 import Bed from "./layout/Bed";
-import io from 'Socket.IO-client'
-import axios from "axios";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -21,70 +20,43 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Layout() {
   const classes = useStyles();
-  const { data: locationList, mutate: newLocationList } = useSWR<Locations[]>('/locations');
-  const [counter, setCounter] = useState<number>(1)
-  const { deviceToken, setDeviceToken, isAPI, setIsAPI, isSocket, setIsSocket } = useContext(MainContext);
-  let socket;
+  const { data: locationList, error: locationListError } = useSWR<Locations[]>('/locations');
+  const { isAPI, setIsAPI } = useContext(MainContext);
+  
 
   useEffect(() => {
     getToken()
-    // socketConnect()
-  })
-
+  }, [])
+  
   useEffect(() => {
-    if(locationList){
-
-    }else{
-      if(counter > 3){
-        console.log("Failed to connect to API, resetting deviceToken")
-        setDeviceToken("")
+    if(locationListError){
+      if(locationListError.response.status==401){
+        console.log("Error: Unauthorised Server Access")
+        getToken()
       }else{
-        console.log(`[${counter}]trying to connect...`)
-        setCounter(counter + 1)
+        console.log("Error: Server Connection")
+        setIsAPI(false)
       }
     }
-  }, [counter, locationList, setDeviceToken])
-
+  }, [locationListError])
+  
   const getToken = () => {
-    console.log("devicetoken useeffect")
-    if(deviceToken==""){
-      axios.get('/register/Client111/droit4ppY')
-      .then( (response) => {
-          if(response.status == 200){
-              setDeviceToken(response.data.token)
-              setIsAPI(true)
-          }else{
-              console.log("2001: Something went wrong with connection")
-              setIsAPI(false)
-          }
-      })
-      .catch( (error) => {
-          console.log("2002: Something went wrong with connection")
-          setIsAPI(false)
-      })
-    }else{
-      console.log(`Current token: ${deviceToken}`)
-      axios.defaults.headers.common = {'Authorization': `bearer ${deviceToken}`}
-    }
-  }
-
-  const socketConnect = async () => {
-    await fetch('http://192.168.2.105:8888');
-    socket = io()
-
-    socket.on('connect', () => {
-      console.log('connected')
-    })
-    socket.on('field', msg => {
-      console.log("Incoming field: "+msg);
+    console.log("triggered token update.")
+    axios.post('/devices/loginDevice')
+    .then( (response) => {
+      if(response.status == 200){
+        console.log("Success: token received")
+        setIsAPI(true)
+      }else{
+        console.log("Error: token not received -101")
+        setIsAPI(false)
+      }
+    }).catch( () => {
+      console.log("Error: token not received -102")
+      setIsAPI(false)
     })
   }
-  
-  
-  
-  
 
-  
 
   return (
     <Grid 
@@ -98,16 +70,13 @@ export default function Layout() {
           <Box sx={{ m: 1 , p:2}} className={classes.roomBackground}>
             <Grid 
               container 
-              justifyContent='center'
+              justifyContent='space-around'
               alignItems='center'
+              spacing={1}
             >
               {locationList?.map((loc) => (
                 (group.id == loc.grpId) && (
                   <Grid item key={loc.locationId} xs={group.isPrivate==true ? 12 : 6}>
-                    {/* <Box className={classes.locVacant}>
-                      <ChairIcon className={classes.chairIcon}/>
-                      <h4 className={classes.locName}>{loc.locationName}</h4>
-                    </Box> */}
                     <Bed bedName={loc.locationName} bedStatus={loc.statusId} bedType={group.isPrivate==true ? 0:1}/>
                   </Grid>)
               ))}

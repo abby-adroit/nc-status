@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import type { AppProps } from 'next/app';
 import { SWRConfig } from 'swr';
@@ -9,20 +9,20 @@ import MainContext from '../src/contexts/mainContext';
 import theme from '../src/theme';
 
 
-// axios.defaults.baseURL = process.env.api_server;
+axios.defaults.baseURL = process.env.api_server;
 
-axios.defaults.baseURL = "http://192.168.2.105:7777/api";
+// axios.defaults.baseURL = "http://192.168.2.105:5555/api";
+//axios.defaults.baseURL = "http://localhost:5555/api";
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
-  const [deviceToken, setDeviceToken] = useState('');
   const [isAPI, setIsAPI] = useState(false);
-  const [isSocket, setIsSocket] = useState(false);
   const appTitle = process.env.app_title;
   
   const swrCon: any = { 
     fetcher: (url: string) => axios(url).then(r => r.data),
-    dedupingInterval: 5000
+    dedupingInterval: 2000,
+    refreshInterval: 1000
   };
 
   useEffect(() => {
@@ -31,7 +31,18 @@ export default function MyApp(props: AppProps) {
     if (jssStyles) {
       jssStyles.parentElement!.removeChild(jssStyles);
     }
+    console.log(axios.defaults.baseURL)
   }, []);
+
+  // useEffect(() => {
+  //   console.log("isAPI changed "+isAPI);
+  //   if(!isAPI){
+  //     console.log("isAPI is false, fetching token");
+  //     getToken()
+  //   }
+  // }, [isAPI])
+  
+  
 
   return (
     <Fragment>
@@ -40,7 +51,7 @@ export default function MyApp(props: AppProps) {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>
-        <MainContext.Provider value={{ deviceToken, setDeviceToken, isAPI, setIsAPI, isSocket, setIsSocket}}>
+        <MainContext.Provider value={{ isAPI, setIsAPI }}>
           <SWRConfig value={ swrCon }>
             <CssBaseline />
             <Component {...pageProps} />

@@ -17,24 +17,24 @@ const useStyles = makeStyles((theme: Theme) =>
         locVacant: {
           backgroundColor: theme.palette.success.main,
           color: '#FFFFFF',
-          width: '100px',
-          margin: '5px',
+          // width: '90%',
+          // margin: '5px',
           borderRadius: '28px',
           textAlign: 'center'
         },
         locCleaning: {
           backgroundColor: theme.palette.warning.main,
           color: '#FFFFFF',
-          width: '100px',
-          margin: '5px',
+          // width: '100px',
+          // margin: '5px',
           borderRadius: '28px',
           textAlign: 'center'
         },
         locOccupied: {
           backgroundColor: theme.palette.error.main,
           color: '#FFFFFF',
-          width: '100px',
-          margin: '5px',
+          // width: '100px',
+          // margin: '5px',
           borderRadius: '28px',
           textAlign: 'center'
         }

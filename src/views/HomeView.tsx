@@ -4,8 +4,9 @@ import { Container, Grid } from "@material-ui/core";
 import Copyright from "../components/Copyright";
 import theme from "../theme";
 import Logo from "../components/Logo";
-import { statusTypes } from "../models/Status";
-import { groupList } from "../models/Groups";
+import DateTime from "../components/DateTime";
+import Legend from "../components/Legend";
+import Connection from "../components/Connection";
 
 
 const useStyles = makeStyles(() =>
@@ -25,7 +26,7 @@ const useStyles = makeStyles(() =>
         padding: '30px',
         borderRadius: '0px 0px 60px 60px',
         marginBottom: '5px',
-        height: '690px'
+        height: '720px'
     },
     sideBorder: {
         borderLeft: '2px #EBEBEB solid',
@@ -39,31 +40,56 @@ const useStyles = makeStyles(() =>
 
 export default function HomeView(props:any) {
     const classes = useStyles();
-    // const { data: locationList } = useSWR<Locations[]>('/locations');
-    // console.log(locationList);
-    console.log(statusTypes);
-    console.log(groupList);
     
     return (
         <div className={classes.root}>
-            <Container className={classes.header}> 
-                <Logo />
-            </Container>
-            <Container maxWidth="lg" className={classes.container}>
-                <Grid
+            {/* <Container className={classes.header}>  */}
+                <Grid 
                     container
-                    spacing={7}
+                    justifyContent="space-between"
+                    alignItems="center"
+                    className={classes.header}
                 >
-                    {/* <Grid item xs={2}>
-                        <Sidebar locationList={locationList}/>
-                    </Grid> */}
-                    {/* <Grid item xs={12} className={classes.sideBorder}> */}
-                    <Grid item xs={12}>
-                        {props.children}
+                    <Grid item xs={6}>
+                        <Logo />
+                    </Grid>
+
+                    
+                    <Grid item xs={6}>
+                        <Grid 
+                            container
+                            spacing={3}
+                            justifyContent="flex-end"
+                            alignItems="flex-end"
+                        >
+                            {/* <Grid item xs={1}> */}
+                                <Connection />
+                                <DateTime />
+                            {/* </Grid> */}
+                        </Grid>
+                        
                     </Grid>
                 </Grid>
-            </Container>
-            
+            {/* </Container> */}
+            {/* <Container maxWidth="lg" className={classes.container}> */}
+                <Grid
+                    container
+                    direction="column"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    className={classes.container}
+                >
+                    <Grid
+                        container
+                        spacing={7}
+                    >
+                        <Grid item xs={12}>
+                            {props.children}
+                        </Grid>
+                    </Grid>
+                    <Legend/>
+                </Grid>
+            {/* </Container> */}
             <Copyright />
         </div>
     )
