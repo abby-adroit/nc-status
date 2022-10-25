@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { Container, Grid } from "@material-ui/core";
 import Copyright from "../components/Copyright";
@@ -7,6 +7,8 @@ import Logo from "../components/Logo";
 import DateTime from "../components/DateTime";
 import Legend from "../components/Legend";
 import Connection from "../components/Connection";
+import ConfirmMaintenance from "../components/ConfirmMaintenance";
+import MaintenanceMode from "../components/MaintenanceMode";
 
 
 const useStyles = makeStyles(() =>
@@ -40,56 +42,61 @@ const useStyles = makeStyles(() =>
 
 export default function HomeView(props:any) {
     const classes = useStyles();
+    const [openConfirm, setOpenConfirm] = useState<boolean>(false);
+    const [maintenanceMode, setMaintenanceMode] = useState<boolean>(false);
+    
+    const handleClick = (e: { detail: any; }) => {
+        if (e.detail == 3){
+            console.log("triple click");
+            setOpenConfirm(true);
+        }
+    }
+    
     
     return (
         <div className={classes.root}>
-            {/* <Container className={classes.header}>  */}
-                <Grid 
-                    container
-                    justifyContent="space-between"
-                    alignItems="center"
-                    className={classes.header}
-                >
-                    <Grid item xs={6}>
-                        <Logo />
-                    </Grid>
-
-                    
-                    <Grid item xs={6}>
-                        <Grid 
-                            container
-                            spacing={3}
-                            justifyContent="flex-end"
-                            alignItems="flex-end"
-                        >
-                            {/* <Grid item xs={1}> */}
-                                <Connection />
-                                <DateTime />
-                            {/* </Grid> */}
-                        </Grid>
-                        
-                    </Grid>
+            <Grid 
+                container
+                justifyContent="space-between"
+                alignItems="center"
+                className={classes.header}
+            >
+                <Grid item xs={6} onClick={handleClick}>
+                    <Logo/>
                 </Grid>
-            {/* </Container> */}
-            {/* <Container maxWidth="lg" className={classes.container}> */}
+
+                
+                <Grid item xs={6}>
+                    <Grid 
+                        container
+                        spacing={3}
+                        justifyContent="flex-end"
+                        alignItems="flex-end"
+                    >
+                        <Connection />
+                        <DateTime />
+                    </Grid>
+                    
+                </Grid>
+            </Grid>
+            <Grid
+                container
+                direction="column"
+                alignItems="center"
+                justifyContent="space-between"
+                className={classes.container}
+            >
                 <Grid
                     container
-                    direction="column"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    className={classes.container}
+                    spacing={7}
                 >
-                    <Grid
-                        container
-                        spacing={7}
-                    >
-                        <Grid item xs={12}>
-                            {props.children}
-                        </Grid>
+                    <Grid item xs={12}>
+                        {maintenanceMode ? <MaintenanceMode /> : props.children}
                     </Grid>
-                    <Legend/>
                 </Grid>
-            {/* </Container> */}
+                {!maintenanceMode && <Legend/>}
+            </Grid>
+            <ConfirmMaintenance onOpenConfirm={setOpenConfirm} openConfirm={openConfirm} onMaintenanceMode={setMaintenanceMode} maintenanceMode={maintenanceMode}/>
             <Copyright />
         </div>
     )

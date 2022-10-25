@@ -23,7 +23,6 @@ export default function Layout() {
   const { data: locationList, error: locationListError } = useSWR<Locations[]>('/locations');
   const { isAPI, setIsAPI } = useContext(MainContext);
   
-
   useEffect(() => {
     getToken()
   }, [])
@@ -36,6 +35,10 @@ export default function Layout() {
       }else{
         console.log("Error: Server Connection "+locationListError.response.status)
         setIsAPI(false)
+      }
+    }else{
+      if(!isAPI){
+        setIsAPI(true)
       }
     }
   }, [locationListError])
