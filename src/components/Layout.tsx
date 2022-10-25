@@ -34,7 +34,7 @@ export default function Layout() {
         console.log("Error: Unauthorised Server Access")
         getToken()
       }else{
-        console.log("Error: Server Connection")
+        console.log("Error: Server Connection "+locationListError.response.status)
         setIsAPI(false)
       }
     }

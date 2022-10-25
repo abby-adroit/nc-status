@@ -8,21 +8,6 @@ export default authenticated(async function getLocation(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-    // const config = {
-    //     user: 'sa',
-    //     password: 'adrpassword',
-    //     server: 'localhost\\sqlserver',
-    //     database: 'BEDSTATUS',
-    //     pool: {
-    //         max: 10,
-    //         min: 4,
-    //         idleTimeoutMillis: 30000,
-    //     },
-    //     options: {
-    //         encrypt: false,
-    //         trustServerCertificate: true
-    //     }
-    // };
 
     if(req.method === 'GET'){
         mssql.connect(config, (err: any) => {

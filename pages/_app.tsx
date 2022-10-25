@@ -31,18 +31,7 @@ export default function MyApp(props: AppProps) {
     if (jssStyles) {
       jssStyles.parentElement!.removeChild(jssStyles);
     }
-    console.log(axios.defaults.baseURL)
   }, []);
-
-  // useEffect(() => {
-  //   console.log("isAPI changed "+isAPI);
-  //   if(!isAPI){
-  //     console.log("isAPI is false, fetching token");
-  //     getToken()
-  //   }
-  // }, [isAPI])
-  
-  
 
   return (
     <Fragment>
