@@ -20,15 +20,13 @@ export default function MaintenanceMode() {
                 </Grid>
                 <Grid item xs={4}>
                     <Typography variant='h3'>
-                        We'll be back soon!
+                        We&#39;ll be back soon!
                     </Typography>
                     <Typography variant='subtitle1'>
                         <strong>We are currently performing scheduled maintenance. We will be back shortly. Thank you for your patience.</strong>
                     </Typography>
                 </Grid>
             </Grid>
-            
-            
         </div>
     )
 }
