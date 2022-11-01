@@ -1,6 +1,6 @@
 import { createTheme } from '@material-ui/core/styles';
 import 'typeface-quicksand';
-import { amber, lightBlue,lightGreen,red } from '@material-ui/core/colors';
+import { amber, orange,lightGreen,yellow } from '@material-ui/core/colors';
 // import Quicksand from './fonts/';
 // Create a theme instance.
 const theme = createTheme({
@@ -9,19 +9,30 @@ const theme = createTheme({
       default: '#F0F0F0',
     },
     primary: { 
-      main: '#001856',
+      light: '#DDE5FA',
+      main: '#001856'
     },
     secondary: {
-      main: '#DDE5FA',
+      light: '#F5F5F5',
+      main: '#D3D3D3'
     },
     error: {
-      main: '#822727',
+      main: '#822727'
     },
     success: {
+      light: lightGreen[100],
       main: '#22A447',
+      dark: lightGreen[900]
+    },
+    warning: {
+      light: yellow[100],
+      main: yellow[500],
+      dark: orange[500],
+      contrastText: '#000'
     },
     info: {
         main: '#D15842',
+        contrastText: '#FFF'
     }
   },
   typography: {

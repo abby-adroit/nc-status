@@ -40,7 +40,7 @@ export default function MyApp(props: AppProps) {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>
-        <MainContext.Provider value={{ isAPI, setIsAPI }}>
+        <MainContext.Provider value={{ isAPI, setIsAPI}}>
           <SWRConfig value={ swrCon }>
             <CssBaseline />
             <Component {...pageProps} />

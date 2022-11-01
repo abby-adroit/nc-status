@@ -4,30 +4,13 @@ import { statusTypes } from '../models/Status'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        statVacant: {
-          backgroundColor: theme.palette.success.main,
-          color: '#FFFFFF',
-          width: '100px',
-          margin: '5px',
-          borderRadius: '28px',
-          textAlign: 'center'
+        statusBox: {
+            maxHeight: '60px',
+            padding: '10px',
+            margin: '5px',
+            borderRadius: '28px',
+            textAlign: 'center'
         },
-        statCleaning: {
-          backgroundColor: theme.palette.warning.main,
-          color: '#FFFFFF',
-          width: '100px',
-          margin: '5px',
-          borderRadius: '28px',
-          textAlign: 'center'
-        },
-        statOccupied: {
-          backgroundColor: theme.palette.error.main,
-          color: '#FFFFFF',
-          width: '100px',
-          margin: '5px',
-          borderRadius: '28px',
-          textAlign: 'center'
-        }
     }),
 );
 
@@ -42,16 +25,16 @@ export default function Legend() {
             alignItems='center'
         >
             {statusTypes?.map((status) => (
-            
-                <Grid item key={status.statusName} xs={1}>
-                    <Box
-                        className={
-                            status.statusName=='VACANT' ? classes.statVacant : status.statusName=='OCCUPIED' ? classes.statOccupied : classes.statCleaning
-                        }
-                    >
-                        <strong>{status.displayName}</strong>
-                    </Box>
-                </Grid>
+                <Box
+                    key={status.statusName}
+                    className={classes.statusBox}
+                    sx={{
+                        color: status.textColor,
+                        bgcolor: status.bgColor
+                    }}
+                >
+                    <strong>{status.displayName}</strong>
+                </Box>
             ))}
         </Grid>
     )

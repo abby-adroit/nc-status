@@ -1,8 +1,9 @@
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 import { Box } from "@material-ui/core";
-import React from "react"
+import React, { useEffect, useState } from "react"
 import ChairIcon from "@mui/icons-material/Chair";
 import BedIcon from "@mui/icons-material/Bed";
+import { statusTypes } from "../../models/Status";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -14,30 +15,11 @@ const useStyles = makeStyles((theme: Theme) =>
         locName: {
           marginTop: 'unset'
         },
-        locVacant: {
-          backgroundColor: theme.palette.success.main,
-          color: '#FFFFFF',
-          // width: '90%',
-          // margin: '5px',
+        locationBox: {
           borderRadius: '28px',
-          textAlign: 'center'
+          textAlign: 'center',
+          height: '75px'
         },
-        locCleaning: {
-          backgroundColor: theme.palette.warning.main,
-          color: '#FFFFFF',
-          // width: '100px',
-          // margin: '5px',
-          borderRadius: '28px',
-          textAlign: 'center'
-        },
-        locOccupied: {
-          backgroundColor: theme.palette.error.main,
-          color: '#FFFFFF',
-          // width: '100px',
-          // margin: '5px',
-          borderRadius: '28px',
-          textAlign: 'center'
-        }
     }),
 );
 
@@ -49,13 +31,29 @@ type bedProps = {
 
 export default function Bed({bedName, bedStatus, bedType}: bedProps) {
   const classes = useStyles();
+  const [bgColor, setBgColor] = useState<string>('')
+  const [fontColor, setFontColor] = useState<string>('')
+
+  useEffect(() => {
+    statusTypes.map( (status) => {
+      if(bedStatus == status.statusName) {
+        setBgColor(status.bgColor)
+        setFontColor(status.textColor)
+      }
+    })
+  }, [bedStatus,bgColor])
+  
 
   return (
-    <Box className={
-      bedStatus=='VACANT' ? classes.locVacant : bedStatus=='OCCUPIED' ? classes.locOccupied : classes.locCleaning
-    }>
-    {bedType==0 ? <BedIcon className={classes.bedIcon}/> : <ChairIcon className={classes.bedIcon}/>}
-    <h4 className={classes.locName}>{bedName}</h4>
-  </Box>
+    <Box 
+      className={classes.locationBox}
+      sx={{
+        color: fontColor,
+        bgcolor: bgColor
+      }}
+    >
+      {bedType==0 ? <BedIcon className={classes.bedIcon}/> : <ChairIcon className={classes.bedIcon}/>}
+      <h4 className={classes.locName}>{bedName}</h4>
+    </Box>
   )
 }

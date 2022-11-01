@@ -1,18 +1,28 @@
 import { Box, Grid, Typography } from "@material-ui/core"
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect } from "react"
 import useSWR from "swr";
 import MainContext from "../contexts/mainContext";
 import { groupList } from "../models/Groups"
 import { Locations } from "../models/Locations";
-import Bed from "./layout/Bed";
+import Room from "./layout/Room";
+import nursepic from '../images/nurse.png'
+import Image from 'next/image'
+import ComputerIcon from "@mui/icons-material/Computer";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         roomBackground: {
-          backgroundColor: theme.palette.secondary.main,
+          backgroundColor: theme.palette.primary.light,
           borderRadius: 10,
+          textAlign: 'center',
+        },
+        stationIcon: {
+          color: theme.palette.primary.main,
+          position:'relative', 
+          top: 10, 
+          fontSize: '80px !important'
         },
     }),
 );
@@ -66,31 +76,31 @@ export default function Layout() {
       container 
       spacing={3}
       justifyContent="flex-start"
-      alignItems="center" 
+      alignItems="flex-start" 
     >
       {groupList.map((group) => (
         <Grid item xs={group.isPrivate==true ? 2 : 3} key={group.id}>
-          <Box sx={{ m: 1 , p:2}} className={classes.roomBackground}>
-            <Grid 
-              container 
-              justifyContent='space-around'
-              alignItems='center'
-              spacing={1}
-            >
-              {locationList?.map((loc) => (
-                (group.id == loc.grpId) && (
-                  <Grid item key={loc.locationId} xs={group.isPrivate==true ? 12 : 6}>
-                    <Bed bedName={loc.locationName} bedStatus={loc.statusId} bedType={group.isPrivate==true ? 0:1}/>
-                  </Grid>)
-              ))}
-            </Grid>
-          </Box>
+          <Room groupId={group.id} isPrivate={group.isPrivate} locationList={locationList}/>
           <Typography variant='h6' component='h6' align='center'>
             {group.groupName}
           </Typography>
-              
         </Grid>
       ))}
+      {/* nurse station */}
+      <Grid item xs={2}>
+        <Box sx={{ m: 1 , p:2}} className={classes.roomBackground}>
+          {/* <div style={{borderRadius: '90px', overflow: 'hidden'}}>
+          <Image  
+              src={nursepic}
+              alt="Nurse Picture"
+          />
+          </div> */}
+          <ComputerIcon className={classes.stationIcon}/>
+          <Typography variant='subtitle1' align='center'>
+            Nurse Station
+          </Typography>
+        </Box>
+      </Grid>
     </Grid>
   )
 }
