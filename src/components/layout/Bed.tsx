@@ -3,20 +3,29 @@ import { Box } from "@material-ui/core";
 import React, { useEffect, useState } from "react"
 import ChairIcon from "@mui/icons-material/Chair";
 import BedIcon from "@mui/icons-material/Bed";
+import HotelIcon from '@mui/icons-material/Hotel';
+import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
+import BedroomParentIcon from '@mui/icons-material/BedroomParent';
 import { statusTypes } from "../../models/Status";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         bedIcon: {
           position:'relative', 
-          top: 10, 
           fontSize: '40px !important'
         },
-        locName: {
-          marginTop: 'unset'
+        statLbl: {
+          margin: 'unset',
+          position:'relative', 
+          top: -10
+            },
+        bedLbl: {
+          textAlign: 'left',
+          margin: 'unset',
+          marginLeft: '10px'
         },
         locationBox: {
-          borderRadius: '28px',
+          borderRadius: '12px',
           textAlign: 'center',
           height: '75px'
         },
@@ -33,15 +42,18 @@ export default function Bed({bedName, bedStatus, bedType}: bedProps) {
   const classes = useStyles();
   const [bgColor, setBgColor] = useState<string>('')
   const [fontColor, setFontColor] = useState<string>('')
+  const [statusDisplay, setStatusDisplay] = useState<string>('')
+  const [displayIcon, setDisplayIcon] = useState<string>('BedIcon')
 
   useEffect(() => {
     statusTypes.map( (status) => {
       if(bedStatus == status.statusName) {
         setBgColor(status.bgColor)
         setFontColor(status.textColor)
+        setStatusDisplay(status.displayName)
       }
     })
-  }, [bedStatus,bgColor])
+  }, [bedStatus])
   
 
   return (
@@ -52,8 +64,10 @@ export default function Bed({bedName, bedStatus, bedType}: bedProps) {
         bgcolor: bgColor
       }}
     >
-      {bedType==0 ? <BedIcon className={classes.bedIcon}/> : <ChairIcon className={classes.bedIcon}/>}
-      <h4 className={classes.locName}>{bedName}</h4>
+		<h4 className={classes.bedLbl}>{bedName}</h4>
+      {/* {bedType==0 ? <BedIcon className={classes.bedIcon}/> : <ChairIcon className={classes.bedIcon}/>} */}
+	  { (bedStatus=="CLEANING.NEEDED"||bedStatus=="CLEANING.IN.PROGRESS") ? <CleaningServicesIcon className={classes.bedIcon}/> : bedStatus=="OCCUPIED" ? <HotelIcon className={classes.bedIcon}/> : <BedIcon className={classes.bedIcon}/>  }
+    <h4 className={classes.statLbl}>{statusDisplay}</h4>
     </Box>
   )
 }
