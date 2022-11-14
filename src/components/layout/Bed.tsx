@@ -1,12 +1,8 @@
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 import { Box } from "@material-ui/core";
 import React, { useEffect, useState } from "react"
-import ChairIcon from "@mui/icons-material/Chair";
-import BedIcon from "@mui/icons-material/Bed";
-import HotelIcon from '@mui/icons-material/Hotel';
-import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
-import BedroomParentIcon from '@mui/icons-material/BedroomParent';
 import { statusTypes } from "../../models/Status";
+import Icon from "../../utils/icon";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -43,7 +39,8 @@ export default function Bed({bedName, bedStatus, bedType}: bedProps) {
   const [bgColor, setBgColor] = useState<string>('')
   const [fontColor, setFontColor] = useState<string>('')
   const [statusDisplay, setStatusDisplay] = useState<string>('')
-  const [displayIcon, setDisplayIcon] = useState<string>('BedIcon')
+  const [displayIcon, setDisplayIcon] = useState<string>('KingBed')
+
 
   useEffect(() => {
     statusTypes.map( (status) => {
@@ -51,6 +48,7 @@ export default function Bed({bedName, bedStatus, bedType}: bedProps) {
         setBgColor(status.bgColor)
         setFontColor(status.textColor)
         setStatusDisplay(status.displayName)
+        setDisplayIcon(status.icon)
       }
     })
   }, [bedStatus])
@@ -65,8 +63,7 @@ export default function Bed({bedName, bedStatus, bedType}: bedProps) {
       }}
     >
 		<h4 className={classes.bedLbl}>{bedName}</h4>
-      {/* {bedType==0 ? <BedIcon className={classes.bedIcon}/> : <ChairIcon className={classes.bedIcon}/>} */}
-	  { (bedStatus=="CLEANING.NEEDED"||bedStatus=="CLEANING.IN.PROGRESS") ? <CleaningServicesIcon className={classes.bedIcon}/> : bedStatus=="OCCUPIED" ? <HotelIcon className={classes.bedIcon}/> : <BedIcon className={classes.bedIcon}/>  }
+    <Icon name={displayIcon} />
     <h4 className={classes.statLbl}>{statusDisplay}</h4>
     </Box>
   )

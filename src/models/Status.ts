@@ -2,9 +2,14 @@ export interface StatusTypes {
     displayName: string,
     statusName: string,
     bgColor: string,
-    textColor: string
+    textColor: string,
+    icon: string
 }
 
+// test icons here
+// https://codesandbox.io/s/material-demo-forked-ljn6c?file=/demo.js
+// if it is not readable, try to import manually on src/utils/icon.js
+// see sample of manual import for CleaningServices Icon
 export const statusTypes: StatusTypes[] = 
 [
     // {
@@ -17,7 +22,8 @@ export const statusTypes: StatusTypes[] =
         displayName: "Vacant",
         statusName: "VACANT",
         bgColor: "#22A447",
-        textColor: "#FFF"
+        textColor: "#FFF",
+        icon: "KingBed"
     },
     // {
     //     displayName: "Hold",
@@ -29,7 +35,8 @@ export const statusTypes: StatusTypes[] =
         displayName: "Occupied",
         statusName: "OCCUPIED",
         bgColor: "#B71C1C",
-        textColor: "#FFF"
+        textColor: "#FFF",
+        icon: "Hotel"
     },
     // {
     //     displayName: "Reserved",
@@ -41,12 +48,14 @@ export const statusTypes: StatusTypes[] =
         displayName: "Cleaning Needed",
         statusName: "CLEANING.NEEDED",
         bgColor: "#FF9800",
-        textColor: "#FFF"
+        textColor: "#FFF",
+        icon: "CleaningServices"
     },
     {
         displayName: "Cleaning",
         statusName: "CLEANING.IN.PROGRESS",
         bgColor: "#FFEB3B",
-        textColor: "#000"
+        textColor: "#000",
+        icon: "CleaningServices"
     }
 ]
